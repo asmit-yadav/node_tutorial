@@ -52,7 +52,152 @@
 // console.log(notes.age)
 // var a=notes.add(10,90);
 // console.log(a)
-var _ = require('lodash');
-var data = ["person", 'person', 1, 2, 3, 1, 2, 'name', 'age', '2'];
-var filter = _.uniq(data)
-console.log(filter)
+// var _ = require('lodash');
+// var data = ["person", 'person', 1, 2, 3, 1, 2, 'name', 'age', '2'];
+// var filter = _.uniq(data)
+// console.log(filter)
+// const express = require('express')
+// const app = express();
+// const db = require('./db')
+
+
+
+// const bodyParser = require('body-parser');
+// app.use(bodyParser.json());
+
+
+// const Person = require('./models/Person')
+
+
+// app.get('/', function (req, res) {
+//     res.send('Welcome to the my hotel...!.')
+// })
+// app.get('/chicken', function (req, res) {
+//     res.send('sure sir , i would love to serve chicken ')
+// })
+// app.get('/idli', function (req, res) {
+//     res.send('sure sir , i would love to serve idli ')
+// })
+
+// app.post('/items',(req,res)=>{
+//     res.send('data is saved');
+// })
+// app.post('/person',(req,res)=>{
+//     res.send('data is saved');
+// })
+
+
+
+// const express = require('express');
+// const app = express();
+// const db = require('./db'); // Ensure this path is correct
+
+// const bodyParser = require('body-parser');
+// app.use(bodyParser.json());
+
+// const Person = require('./models/Person'); // Ensure this path is correct
+
+// app.get('/', (req, res) => {
+//     res.send('Welcome to the my hotel...!.')
+// });
+
+// Uncomment these to test basic routes
+// app.get('/chicken', (req, res) => {
+//     res.send('sure sir , i would love to serve chicken')
+// });
+// app.get('/idli', (req, res) => {
+//     res.send('sure sir , i would love to serve idli')
+// });
+
+// Uncomment these to test basic POST routes
+// app.post('/items', (req, res) => {
+//     res.send('data is saved');
+// });
+// app.post('/person', (req, res) => {
+//     res.send('data is saved');
+// });
+
+
+
+const express = require('express');
+const app = express();
+const db = require('./db'); // Ensure this path is correct
+
+const bodyParser = require('body-parser');
+app.use(bodyParser.json());
+
+const Person = require('./models/Person'); // Ensure this path is correct
+const MenuItem = require('./models/MenuItem'); // Ensure this path is correct
+
+
+
+
+app.get('/', (req, res) => {
+    res.send('Welcome to the my hotel...!.')
+});
+
+
+app.post('/person', async (req, res) => {
+    try {
+        const data = req.body;
+        const newPerson = new Person(data);
+        const response = await newPerson.save();
+        console.log('Data Saved');
+        res.status(200).json(response);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+
+app.post('/MenuItem', async (req, res) => {
+    try {
+        const data = req.body;
+        const newMenuItem = new MenuItem(data);
+        const response = await newMenuItem.save();
+        console.log('Data Saved');
+        res.status(200).json(response);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+
+
+
+app.get('/person',async (req, res) => {
+    try {
+        const data = await Person.find();
+        console.log('Data fetched Successful !');
+        res.status(200).json(data);
+    }
+    catch (err) {
+        console.log(err);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+
+app.get('/MenuItem',async (req, res) => {
+    try {
+        const data = await MenuItem.find();
+        console.log('Data fetched Successful !');
+        res.status(200).json(data);
+    }
+    catch (err) {
+        console.log(err);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+
+
+
+
+
+
+app.listen(3000, () => {
+    console.log('listening on port number 3000');
+});
