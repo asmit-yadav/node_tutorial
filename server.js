@@ -97,9 +97,7 @@
 
 // const Person = require('./models/Person'); // Ensure this path is correct
 
-// app.get('/', (req, res) => {
-//     res.send('Welcome to the my hotel...!.')
-// });
+
 
 // Uncomment these to test basic routes
 // app.get('/chicken', (req, res) => {
