@@ -184,19 +184,27 @@
 const express = require('express');
 const app = express();
 const db = require('./db'); // Ensure this path is correct
-
+const passport=require("./auth");
 require('dotenv').config();
+
+
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 
 let PORT = process.env.PORT || 3000;
-// MIDLWARE CONFIGURATION
+
+// Middleware configuration
 const logRequest = (req, res, next) => {
     console.log(`${new Date().toLocaleString()} Request Made to: ${req.originalUrl}`);
     next();
 };
-app.use(logRequest);// express to the middle malware function
-app.get('/',(req, res) => {
+
+app.use(logRequest); // Express middleware function
+
+
+app.use(passport.initialize());
+const  localAuthMiddleware =passport.authenticate('local', { session: false });
+app.get('/' , (req, res) => {
     res.send('Welcome to my hotel...!');
 });
 
@@ -204,7 +212,7 @@ const personRoutes = require('./routes/personRoutes');
 const menuRoutes = require('./routes/menuRoutes');
 
 app.use('/menuItem', menuRoutes);
-app.use('/person',personRoutes);
+app.use('/person',localAuthMiddleware, personRoutes);
 
 const server = app.listen(PORT, () => {
     console.log(`Listening on port number ${PORT}`);
@@ -221,5 +229,6 @@ server.on('error', (error) => {
         console.error('Server error:', error);
     }
 });
+
 //  comsole.log("ASMIT YADAV ")
 
