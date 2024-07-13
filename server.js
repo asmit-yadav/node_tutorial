@@ -190,8 +190,13 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 
 let PORT = process.env.PORT || 3000;
-
-app.get('/', (req, res) => {
+// MIDLWARE CONFIGURATION
+const logRequest = (req, res, next) => {
+    console.log(`${new Date().toLocaleString()} Request Made to: ${req.originalUrl}`);
+    next();
+};
+app.use(logRequest);// express to the middle malware function
+app.get('/',(req, res) => {
     res.send('Welcome to my hotel...!');
 });
 
@@ -199,7 +204,7 @@ const personRoutes = require('./routes/personRoutes');
 const menuRoutes = require('./routes/menuRoutes');
 
 app.use('/menuItem', menuRoutes);
-app.use('/person', personRoutes);
+app.use('/person',personRoutes);
 
 const server = app.listen(PORT, () => {
     console.log(`Listening on port number ${PORT}`);
@@ -216,5 +221,5 @@ server.on('error', (error) => {
         console.error('Server error:', error);
     }
 });
- comsole.log("ASMIT YADAV ")
+//  comsole.log("ASMIT YADAV ")
 
