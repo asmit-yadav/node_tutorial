@@ -184,9 +184,8 @@
 const express = require('express');
 const app = express();
 const db = require('./db'); // Ensure this path is correct
-const passport=require("./auth");
+const passport = require('./auth');
 require('dotenv').config();
-
 
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
@@ -201,10 +200,10 @@ const logRequest = (req, res, next) => {
 
 app.use(logRequest); // Express middleware function
 
-
 app.use(passport.initialize());
-const  localAuthMiddleware =passport.authenticate('local', { session: false });
-app.get('/' , (req, res) => {
+const localAuthMiddleware = passport.authenticate('local', { session: false });
+
+app.get('/', (req, res) => {
     res.send('Welcome to my hotel...!');
 });
 
@@ -229,6 +228,7 @@ server.on('error', (error) => {
         console.error('Server error:', error);
     }
 });
+
 
 //  comsole.log("ASMIT YADAV ")
 
